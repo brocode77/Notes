@@ -1,0 +1,415 @@
+Kubernetes --
+
+* Is a "container orchestration" tool
+
+* manages cluster of containers
+
+* Container Orachestration tools -
+
+	Docker Swarm - docker - 2013 - 2018
+
+	kubernetes - kubernetes - "org" - by google k8s ( features ) in 2017.
+
+		   - 2011 it was developed, however it was put to market 2017
+	
+	Mesos - is a container orchestation tool from Apache Foundations. 2018.
+
+* Manages -
+
+	1. schedule containers in cluster
+
+	2. it can manage the containers in a cluster- start , stop, restart, delete.
+
+	3. Open source ( Google - K8s ) -- kebernetes 
+
+		** world's largest IT open source project
+
+	4. work on - on premise and also public cloud - as of now it works only in AWS, GCP, Azure. 
+
+	5. Highly modular* - ( Change the configuration to an extent of customization for any platform)
+
+	6. Great Community Support
+
+	7. Kubernetes will work up on container engine. 
+
+	   * Its default Container engine is Docker
+
+            Other Container Engines that it supports are : rkt(rocket), CRIO 
+
+	8. Kubernetes will work on Linux host
+		
+			** recently, solution kubernetes on Windows 
+
+=======	Technical terms in Kubernetes ==
+
+
+	node - kubernetes - config files --> settings
+
+	master - kubernetes - config files --> setiings
+
+	* Kubernetes node -> k8s --> "minions" --> " Worker machine "
+
+	* Kubernetes server --> "master node" --> "Server machine"
+
+
+=== Installation of Kubernetes ===
+
+ Setup of kubernetes can be done in two ways
+
+	1. Single node cluster
+
+		-- node --> single pc will act as server and also a node
+		
+		-- Lab Practise - Desktop/Laptop/Cloud environment
+
+		-- system requirements
+
+			RAM 3 GB, space: deployment 
+
+	2. Multi node cluster ( 4 nodes )  -- ** 10 GB RAM OVER ALL CLUSTER
+
+
+	-- Server -- 1 
+
+		** Server should have 4 GB RAM
+
+	-- Nodes --- 3
+
+		** Worker machine should have 2 GB RAM
+	
+	-- same network --
+
+	-- kubernetes, and container engines
+
+	-- * On each node we can create cluster, Each cluster we can create hundreds of containers
+
+	-- system requirements : 
+
+		each node should have 50 GB space
+
+		each node should have 2 GB RAM
+
+		Server should 200 GB of space, 
+		
+		server should have 4 GB/8 GB of RAM
+
+
+** we cannot practise multinode cluster, however we can practise kubernetes with single node cluster
+
+** single node cluster -- packages are 1. minikube  2. kind
+
+==== INSTALLATION PROCESS of SINGLE NODE CLUSTER ====
+
+1. Open Offical Site of Kubernetes --> https://kubernetes.io/
+
+2. Click on Documentation tab on offical site
+
+3. Click on "Task" under left side menu
+
+4. Now, under page select option "Install Tools"
+
+5. setup components : 1. Minikube and 2. kubectl
+
+6. Before you download these on your computer, we need to check with below -
+
+
+	-- Oracle VM or KVM installed
+	-- 2 RAM GB
+	-- BIOS Virtualised enabled
+	
+
+7. Download and install minikube installer for windows os from the page. 
+
+	start the installation, ...., next, next, finish
+
+	restart the computer...
+
+8. download kubectl and put in the folder where minikube exists in c:/pogramfiles/kubernetes/minikube
+
+Note :
+	we need kubectl installed to interact with cluster
+
+	we need kubeadm to administer the cluster
+
+========= COMMANDS OF KUBERNETES =====
+
+Q. How to install/start Kubernetes on Cluster ?
+
+	# minikube start 
+
+	or
+
+	# minikube.exe start
+
+Q. How to check minikube kubernets version on a cluster ?
+
+	# minikube version
+
+Q. How to check the version of kubectl ?
+
+	# kubectl version --client
+
+Q. How to check the kubectl version on a cluster ?
+
+	# kubectl version
+
+Q. How to get nodes information from cluster?
+
+	# kubectl get nodes
+
+Q. How to check status of kubernetes cluster ?
+	( if services are loaded or not)
+
+	# minikube status
+
+Q. how to know the cluster properties or  attributes or info ?
+
+	# kubectl cluster-info
+
+Q. How to stop the cluster or shut down the minikube ?
+	
+	# minikube stop
+
+==== Components of kubernetes ====
+
+1. API Server - accepts incomming and out goings network traffic from cluster
+
+2. etcd - to store and manage all data in cluster
+
+3. Kubelet - helps to interact with kubernetes services
+
+4. Container Run Time - helps to manage the containers live (Processor)
+
+5. Controller - directs the actions towards a container - stop, restart, run, build etc
+
+6. Scheduler - Load balancer of containers in a cluster as load balancer
+
+
+* how to get the pods information in a cluster ?
+
+	PODS -- it is single unit, instance of application deployed
+
+		similiar to container of docker
+
+		C. I --> containers ... n
+
+      "PODS is an instance of your deployed application service in a container form"
+
+		application --> live -- PODS --> login  and customize
+
+	# kubectl get pods 
+
+		or
+
+	# kubectl get pod
+
+Q How to open kubernetes Dashboard ?
+
+	# minikube dashboard
+
+
+=========== How to deploy the application in Kubernetes =============
+
+Work flow for deploying an application: ( Commission a POD )
+
+1. Create deployment --> POD
+2. Verify deployment  --> POD
+3. Create ports for deployment --> Ports for POD
+4. Create service URLS for deployment --> URL for POD
+5. Access the deployed app -> Application in a web browser
+
+
+Step 1 : ( create a POD ):  
+--------------------------
+Syntax:	kubectl create deployment <application_name> --image=Registry_info/image_name
+
+Example : # kubectl create deployment test-pod --image=k8s.gcr.io/echoserver:1.10
+
+for example : docker.io/centos:centos7
+
+
+Step 2 : Verify if POD created or not.
+--------------------------------------
+
+	 # kubectl get pod
+
+
+Step 3 : Creating ports for POD
+-------------------------------
+
+# kubectl expose deployment <Application_name> --type=NodePort --port=<port_number>
+
+    Here NodePort, N is caps and P is caps
+
+  Example :
+
+# kubectl expose deployment test-pod --type=NodePort --port=8080
+
+
+
+Step 4 : Create Service URL for POD: ( Endpoint URL for POD )
+--------------------------------------------------------------
+
+	After Expose, we have to create Service URL For POD
+
+	# minikube service <Application_name> --url
+
+	or 
+
+	# kubectl service <Application_name> --url
+
+  Example :
+
+	# minikube service test-pod --url
+
+
+	it will generate some URL, which we use it to access the application/POD.
+
+
+Step 5 : Access the POD
+-----------------------
+
+copy the URL which was generated in step 4 and open that in web browser.
+
+
+Q. How to decommission the POD ?
+	  
+	# kubectl delete services <application_name>
+
+  	Example :
+
+	# kubectl delete services test-pod
+
+	POD will be active, however will not accessible.(Network Down)
+
+Q. How to delete the deployment of application
+
+	#  kubectl get pod		--> to check the existing pod
+
+	# kubectl delete deployment <application_name>
+
+	example :
+
+	# kubectl delete deployment test-pod
+
+	# kubectl get pod		--> to verify if pod got deleted or not.
+
+
+** Use cases of Real time:
+
+Details need for deployment of application on kubernetes:
+
+1. registry info
+
+2. KT Of image
+
+3. Port 
+
+4. How many pods.
+
+5. generate service URL and give to client
+
+
+** understanding of Scaling options in Dashboard:
+-------------------------------------------------
+
+ Scale : 3  ( GUI ) 
+
+   # kubectl scale -n default deployment test-pod --replicas=3
+
+  example : out of 3 ;; delete 1 ==> net =2 ;; scaled = 3 ; 
+
+** Desired value is based on work load
+
+Replica sets : 
+
+	replica of ur orginial application - pod
+
+	replica of pod will be pushed on to other nodes as back
+
+	Replica - grayed out : Open source and also minikube
+
+
+
+5 pods - desired ;; 7 pods - atucal
+
+** to delete a specific POD:
+
+	# kubectl delete -n <namespace> pod <pod_name_id>
+
+	# kubectl delete -n default pod test-pod-7f65bc4bf-z59fm
+
+** How to login into pod in GUI ?	
+
+  Login into GUI and go through it.
+
+Relica sets -- manages the copy of your application
+
+	** example -- test-pod --> image : k8s.gcr.io/echoserver:1.10
+
+	** application test-pod --> relica sets
+
+	** backup of the application 
+	
+	** 2 replicas - 1 cluster/pc  and another cluster/pc
+
+	statesets -- mirror : 
+
+**** Deployment of Docker Image in Kubernetes ***
+
+Step 1 :          Deploy docker image nginx
+
+Syntax :        
+
+# kubectl run <pod_name> --image=<image_name>
+
+Example  - 
+   
+               
+# kubectl run nginx --image=nginx
+
+Step 2 :      Verify the pod is created
+
+        # kubectl get pods
+
+
+Step 3 :  To know more details about POD
+
+
+     ***Syntax     # kubectl describe pod <pod_name>
+
+    Example   # kubectl describe pod nginx
+
+Step 4 :  To know more details about POD using wide option ( master, child node, IP address )
+
+        # kubectl get pods -o wide
+
+
+--------- Sample on code writing -----------
+
+* file should have extention of .yml
+
+* code to be written following the basics of yml language
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapplication-pod
+  labels:
+    app: myapplication
+    type: front-end
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+
+# kubectl create -f <filename>
+
+# kubectl get pods
+
+
+ops - side of devops --> improve ur knowldge on kubernetes on administration
+
+simple- devops -  profile
+
+developer - administration and yml language
